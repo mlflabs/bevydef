@@ -15,6 +15,7 @@ iyes_progress = "0.8.0"
 leafwing-input-manager = "0.9.2"
 serde = "1.0.160"
 serde_json = "1.0.96"
+watch = "0.2.3"
 
 
 [workspace]

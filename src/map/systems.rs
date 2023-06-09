@@ -35,7 +35,7 @@ pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(LdtkWorldBundle {
        ldtk_handle: asset_server.load("maps/level1.ldtk"),
        level_set: LevelSet { iids },
-       transform: Transform::from_xyz(-256., -1024., 0.),
+       transform: Transform::from_xyz(0., -1024., 0.),
        ..Default::default()
     });
 }
@@ -47,13 +47,22 @@ pub fn player_grid_change (
     mut ev_player_position: EventReader<PlayerPosition>,
     mut player_query: Query<&mut GridPosition, With<Player>>, //LevelChangeEvent
     mut ev_writer: EventWriter<LevelChangeEvent>
-    //mut level_query: Query<&mut LevelSet>,
+    //mut level_query: Query<&mut LevelSet>, 
     //ldtk_assets: Res<Assets<LdtkAsset>>
 ){
     if let Ok(mut grid_position) = player_query.get_single_mut() {
         for ev in ev_player_position.iter(){
-            let x: isize = (ev.value.x as isize / GRID_LEVEL_PIXEL_WIDTH) * GRID_LEVEL_PIXEL_WIDTH;
-            let y: isize = (ev.value.y as isize / GRID_LEVEL_PIXEL_HEIGHT) * GRID_LEVEL_PIXEL_HEIGHT;
+            
+            let mut x: isize = (ev.value.x as isize / GRID_LEVEL_PIXEL_WIDTH) * GRID_LEVEL_PIXEL_WIDTH;
+            let mut y: isize = (ev.value.y as isize / GRID_LEVEL_PIXEL_HEIGHT) * GRID_LEVEL_PIXEL_HEIGHT;
+
+            if ev.value.x < 0. {
+                x = x - GRID_LEVEL_PIXEL_WIDTH;
+            }
+
+            if ev.value.y < 0. {
+               y = y - GRID_LEVEL_PIXEL_HEIGHT;
+            }
 
             let g = Vec2::new(x as f32, y as f32);
 
@@ -87,7 +96,8 @@ pub fn level_change_system(
         // let id =   ["Level_", &(ev.x).to_string() ,"_", &(ev.y).to_string()]
         //     .join("").replace("-", "0"); 
         // println!("Choosing level: {}", id);
-        // *level_selection = LevelSelection::Iid(id); //::Iid(ldtk_level.level.iid.clone());
+        // level_set.iids.insert(id);
+        //*level_selection = LevelSelection::Iid(id); //::Iid(ldtk_level.level.iid.clone());
 
         for x in -1..2 {
             for y in -1..2 {

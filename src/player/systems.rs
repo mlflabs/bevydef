@@ -29,7 +29,7 @@ pub fn spawn_player(
             ..default()
         },
         sprite:SpriteBundle {
-            transform: Transform::from_xyz(0.0, 0.0, 2.),
+            transform: Transform::from_xyz(0.0, 0.0, 10.),
             sprite: Sprite {
                 color: Color::rgb(0., 0.47, 1.),
                 custom_size: Some(Vec2::new(10., 10.)),

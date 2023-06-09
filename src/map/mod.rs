@@ -31,7 +31,7 @@ impl Plugin for MapPlugin {
             
             .add_startup_system(setup)
             //.insert_resource(LevelSelection::Index(0))
-            .register_ldtk_entity::<MyBundle>("MyEntityIdentifier")
+            .register_ldtk_entity::<MyBundle>("Enemy1")
             .add_event::<LevelChangeEvent>()
             
             .add_system(level_change_system)
@@ -56,6 +56,8 @@ pub struct MyBundle {
     #[sprite_sheet_bundle]
     #[bundle]
     sprite_bundle: SpriteSheetBundle,
+    #[worldly]
+    worldly: Worldly,
 }
 
 
